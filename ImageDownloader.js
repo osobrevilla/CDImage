@@ -4,24 +4,26 @@
  * version 0.1 beta
  */
 
-"use strict";
-
+'use strict';
 
 var ImageDownloader = (function (win) {
-
-  var _abort = function (iframe) {
-    var cw = iframe.contentWindow;
-    if (cw.stop) {
-      cw.stop();
-    } else {
-      cw = iframe.contentDocument;
-      cw.execCommand && cw.execCommand('Stop', false);
-    }
-    iframe && iframe.parentNode.removeChild(iframe);
-    delete iframe;
-  };
+  
+  var garbage = null,
+    _abort = function (iframe) {
+      var cw = iframe.contentWindow;
+      garbage = garbage || win.document.createElement('div');
+      if(cw.stop) {
+        cw.stop();
+      } else {
+        cw = iframe.contentDocument;
+        cw.execCommand && cw.execCommand('Stop', false);
+      }
+      iframe && iframe.parentNode.removeChild(iframe);
+      garbage.appendChild(iframe);
+      garbage.innerHTML = '';
+      iframe = null;
+    };
   return {
-
     /**
      * Begin download image.
      * @param src {String} 
@@ -30,10 +32,9 @@ var ImageDownloader = (function (win) {
      *    - image:HTMLImageElement
      *    - abort: function 
      */
-
     'load': function (src, callback) {
-      var iframe = document.createElement('iframe'),
-        img = new Image(),
+      var iframe = win.document.createElement('iframe'),
+        img = new win.Image(),
         doc;
       iframe.style.display = 'none';
       iframe.setAttribute('src', 'about:blank');
@@ -54,7 +55,7 @@ var ImageDownloader = (function (win) {
           _abort(iframe);
           return img;
         }
-      }
+      };
     }
   };
 }(window));
