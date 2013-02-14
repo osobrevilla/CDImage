@@ -41,6 +41,7 @@ var ImageDownloader = (function (win) {
         doc = iframe.contentDocument || iframe.contentWindow.document;
         img.onload = function () {
           callback && callback.call(this, this);
+          this.onload = null;
           _abort(iframe);
         };
         doc.body.appendChild(img);
