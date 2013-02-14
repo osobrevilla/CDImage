@@ -57,18 +57,3 @@ var ImageDownloader = (function (win) {
     }
   };
 }(window));
-
-
-
-/* ------ Use example ------ */
-
-var src = "http://www.hdwallpapersarena.com/wp-content/uploads/2012/07/Download-Hulk-HD-Wallpaper-For-Computer.jpg?x=" + Math.random() * 1000;
-// DownloadImage
-var obj = ImageDownloader.load(src, function () {
-  console.log(this, arguments);
-});
-// We waited 2 seconds to abort the download.
-setTimeout(function () {
-  var img = obj.abort();
-  console.log("abort src: ", img.src);
-}, 2000);
