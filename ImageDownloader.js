@@ -40,8 +40,8 @@ var ImageDownloader = (function (win) {
       iframe.onload = function () {
         doc = iframe.contentDocument || iframe.contentWindow.document;
         img.onload = function () {
-          callback && callback.call(this, this);
           this.onload = null;
+          callback && callback.call(this, this);
           _abort(iframe);
           iframe = null;
         };
