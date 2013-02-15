@@ -18,10 +18,9 @@ var ImageDownloader = (function (win) {
         cw = iframe.contentDocument;
         cw.execCommand && cw.execCommand('Stop', false);
       }
-      iframe && iframe.parentNode.removeChild(iframe);
       garbage.appendChild(iframe);
       garbage.innerHTML = '';
-      iframe = null;
+      return iframe;
     };
   return {
     /**
@@ -44,6 +43,7 @@ var ImageDownloader = (function (win) {
           callback && callback.call(this, this);
           this.onload = null;
           _abort(iframe);
+          iframe = null;
         };
         doc.body.appendChild(img);
         img.src = src;
@@ -52,7 +52,7 @@ var ImageDownloader = (function (win) {
       return {
         'image': img,
         'abort': function () {
-          iframe && _abort(iframe);
+          iframe && _abort(iframe) && (iframe = null);
           return img;
         }
       };
