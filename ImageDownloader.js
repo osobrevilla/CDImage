@@ -52,7 +52,7 @@ var ImageDownloader = (function (win) {
       return {
         'image': img,
         'abort': function () {
-          _abort(iframe);
+          iframe && _abort(iframe);
           return img;
         }
       };
