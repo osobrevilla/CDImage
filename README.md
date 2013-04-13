@@ -19,8 +19,8 @@ var obj = ImageDownloader.load(src, function () {
 ```
 // We waited 2 seconds to abort the download.
 setTimeout(function () {
-  var img = obj.abort();
-  console.log("abort src: ", img.src);
+  var src = obj.abort();
+  console.log("abort src: ", src);
 }, 2000);
 
 ```
