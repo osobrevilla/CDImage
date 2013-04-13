@@ -11,8 +11,8 @@ var ImageDownloader = (function (win) {
      * @param src {String} 
      * @param callback {Function}
      * - return object 
-     *    - image:HTMLImageElement
-     *    - abort: function 
+     *    - abort: {function}
+     *      - return {String} src
      */
     'load': function (src, callback) {
 
