@@ -1,27 +1,10 @@
 /* !JavaScript Image Downloader (Cancelable)
- * Copyright 2013 Oscar Sobrevilla (oscar.sobrevilla@gmail.com)
- * Released under the MIT and GPL licenses.
- * version 0.1 beta
- */
-
-'use strict';
-
+* Copyright 2013 Oscar Sobrevilla (oscar.sobrevilla@gmail.com)
+* Released under the MIT and GPL licenses.
+* version 0.1.8 beta
+*/
 var ImageDownloader = (function (win) {
-  
-  var garbage = null,
-    _abort = function (iframe) {
-      var cw = iframe.contentWindow;
-      garbage = garbage || win.document.createElement('div');
-      if(cw.stop) {
-        cw.stop();
-      } else {
-        cw = iframe.contentDocument;
-        cw.execCommand && cw.execCommand('Stop', false);
-      }
-      garbage.appendChild(iframe);
-      garbage.innerHTML = '';
-      return iframe;
-    };
+    
   return {
     /**
      * Begin download image.
@@ -32,29 +15,42 @@ var ImageDownloader = (function (win) {
      *    - abort: function 
      */
     'load': function (src, callback) {
+
       var iframe = win.document.createElement('iframe'),
-        img = new win.Image(),
-        doc;
+        _abort = function(){
+          if ( !iframe )
+            return;
+          var cw = iframe.contentWindow;
+          if(cw.stop) {
+            cw.stop();
+          } else {
+            cw = iframe.contentDocument;
+            cw.execCommand && cw.execCommand('Stop', false);
+          }
+          iframe.parentNode.removeChild(iframe);
+          iframe = null;
+          return src;
+        };
+
       iframe.style.display = 'none';
       iframe.setAttribute('src', 'about:blank');
+
       iframe.onload = function () {
-        doc = iframe.contentDocument || iframe.contentWindow.document;
+        this.onload = null;
+        var img = new win.Image();
         img.onload = function () {
           this.onload = null;
-          callback && callback.call(this, this);
           _abort(iframe);
-          iframe = null;
+          callback && callback(src);
         };
-        doc.body.appendChild(img);
+        (iframe.contentDocument || iframe.contentWindow.document).body.appendChild(img);
         img.src = src;
       };
+      
       win.document.body.appendChild(iframe);
+      
       return {
-        'image': img,
-        'abort': function () {
-          iframe && _abort(iframe) && (iframe = null);
-          return img;
-        }
+        'abort': _abort
       };
     }
   };
