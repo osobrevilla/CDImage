@@ -56,4 +56,5 @@ var ImageDownloader = (function (win, doc, undefined) {
       };
     }
   };
+
 }(window, window.document));
