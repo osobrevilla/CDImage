@@ -31,14 +31,19 @@ var ImageDownloader = (function (win, doc, undefined) {
      *      - return {String} src
      */
     'load': function (src, callback) {
-      var iframe = win.document.createElement('iframe'),
+        var idoc, 
+        iframe = win.document.createElement('iframe'),
         _abort = function () {
           var res = _stopAndRemove(iframe);
           if (res) iframe = null;
+          idoc = null;
           return res === true ? src : res;
         };
       iframe.style.display = 'none';
-      iframe.setAttribute('src', 'about:blank');
+      // iframe.setAttribute('src', 'about:blank');
+      doc.body.appendChild(iframe);
+      idoc = iframe.contentDocument || iframe.contentWindow.document;
+      idoc.open();
       iframe.onload = function () {
         this.onload = null;
         var img = new win.Image();
@@ -47,10 +52,10 @@ var ImageDownloader = (function (win, doc, undefined) {
           _abort(iframe);
           callback && callback(src);
         };
-        (iframe.contentDocument || iframe.contentWindow.document).body.appendChild(img);
+        idoc.body.appendChild(img);
         img.src = src;
       };
-      doc.body.appendChild(iframe);
+      idoc.close();
       return {
         'abort': _abort
       };
