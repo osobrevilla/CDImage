@@ -25,7 +25,7 @@
         }
     }
 
-    this.ImageDownloader = {
+    this.CDImage = {
         /**
          * Begin download image.
          * @param src {String}
