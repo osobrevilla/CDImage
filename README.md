@@ -9,7 +9,7 @@ var src = "http://web.com/image.jpg";
 // @obj contains the link object with abort method.
 // @function is a callback that run when the image is loaded.
  
-var obj = ImageDownloader.load(src, function () { 
+var obj = CDImage.load(src, function () { 
   console.log("Download end!!", arguments);
 });
 ```
