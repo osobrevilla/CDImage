@@ -10,13 +10,10 @@
     var _stopAndRemove = function (iframe) {
         if (iframe) {
             try {
-                var cw = iframe.contentWindow;
-                if (cw.stop) {
-                    cw.stop();
-                } else {
-                    cw = iframe.contentDocument;
-                    cw.execCommand && cw.execCommand('Stop', false);
-                }
+                var c = iframe.contentWindow;
+                c.stop ? c.stop() :
+                    c = iframe.contentDocument,
+                    c.execCommand && c.execCommand('Stop', false);
                 iframe.parentNode.removeChild(iframe);
                 return true;
             } catch (e) {
