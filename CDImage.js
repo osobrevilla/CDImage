@@ -11,9 +11,9 @@
         if (iframe) {
             try {
                 var c = iframe.contentWindow;
-                c.stop ? c.stop() :
+                c && c.stop ? c.stop() :
                     c = iframe.contentDocument,
-                    c.execCommand && c.execCommand('Stop', false);
+                    c && c.execCommand && c.execCommand('Stop', false);
                 iframe.parentNode.removeChild(iframe);
                 return true;
             } catch (e) {
