@@ -40,7 +40,7 @@
             idoc.open();
             loaded = function () {
                 this.removeEventListener ?
-                    this.removeEventListener('load', loaded, false) : iframe.detachEvent('onload', loaded);
+                    this.removeEventListener('load', loaded, false) : this.detachEvent('onload', loaded);
                 var img = new Image();
                 img.onload = function () {
                     this.onload = null;
