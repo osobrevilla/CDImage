@@ -5,7 +5,7 @@
 // Set the image source url
 var src = "http://web.com/image.jpg";
 
-// Begin the downwnload image
+// Begin download image
 // @obj contains the link object with abort method.
 // @function is a callback that run when the image is loaded.
  
