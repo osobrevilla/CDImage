@@ -19,7 +19,7 @@ var obj = CDImage.load(src, function () {
 ```
 // We waited 2 seconds to abort the download.
 setTimeout(function () {
-  var src = obj.abort();
+  var src = obj.abort(); // look aborted request (color red) using dev tools like firebug or chrome dev tools 
   console.log("abort src: ", src);
 }, 2000);
 
